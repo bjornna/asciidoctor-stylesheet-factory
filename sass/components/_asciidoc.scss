@@ -162,8 +162,25 @@ kbd {
   margin-right: 0;
 }
 
-.menuseq, .menu {
-  color: darken($body-font-color, 10%);
+.menuseq, .menuref {
+  color: #000;
+}
+
+.menuseq b:not(.caret), .menuref {
+  font-weight: inherit;
+}
+
+.menuseq {
+  word-spacing: -0.02em;
+  b.caret {
+    font-size: 1.25em;
+    line-height: 0.8;
+  }
+  i.caret {
+    font-weight: bold;
+    text-align: center;
+    width: 0.45em;
+  }
 }
 
 b.button:before, b.button:after {
@@ -953,49 +970,42 @@ table.tableblock {
 }
 
 // NOTE .grid-* selectors must be defined before .frame-* selectors in order for styles to cascade properly
-table.tableblock,
-th.tableblock,
-td.tableblock {
+table.tableblock, th.tableblock, td.tableblock {
   border: 0 solid $table-border-color;
 }
 
-table.grid-all th.tableblock,
-table.grid-all td.tableblock {
+table.grid-all > thead > tr > .tableblock,
+table.grid-all > tbody > tr > .tableblock {
   border-width: 0 $table-border-size $table-border-size 0;
 }
 
-table.grid-all tfoot > tr > th.tableblock,
-table.grid-all tfoot > tr > td.tableblock {
+table.grid-all > tfoot > tr > .tableblock {
   border-width: $table-border-size $table-border-size 0 0;
 }
 
-table.grid-cols th.tableblock,
-table.grid-cols td.tableblock {
+table.grid-cols > * > tr > .tableblock {
   border-width: 0 $table-border-size 0 0;
 }
 
-table.grid-all * > tr > .tableblock:last-child,
-table.grid-cols * > tr > .tableblock:last-child {
-  border-right-width: 0;
-}
-
-table.grid-rows th.tableblock,
-table.grid-rows td.tableblock {
+table.grid-rows > thead > tr > .tableblock,
+table.grid-rows > tbody > tr > .tableblock {
   border-width: 0 0 $table-border-size 0;
 }
 
-table.grid-all tbody > tr:last-child > th.tableblock,
-table.grid-all tbody > tr:last-child > td.tableblock,
-table.grid-all thead:last-child > tr > th.tableblock,
-table.grid-rows tbody > tr:last-child > th.tableblock,
-table.grid-rows tbody > tr:last-child > td.tableblock,
-table.grid-rows thead:last-child > tr > th.tableblock {
-  border-bottom-width: 0;
+table.grid-rows > tfoot > tr > .tableblock {
+  border-width: $table-border-size 0 0 0;
 }
 
-table.grid-rows tfoot > tr > th.tableblock,
-table.grid-rows tfoot > tr > td.tableblock {
-  border-width: $table-border-size 0 0 0;
+table.grid-all > * > tr > .tableblock:last-child,
+table.grid-cols > * > tr > .tableblock:last-child {
+  border-right-width: 0;
+}
+
+table.grid-all > tbody > tr:last-child > .tableblock,
+table.grid-all > thead:last-child > tr > .tableblock,
+table.grid-rows > tbody > tr:last-child > .tableblock,
+table.grid-rows > thead:last-child > tr > .tableblock {
+  border-bottom-width: 0;
 }
 
 table.frame-all {
@@ -1090,15 +1100,21 @@ ol dd,
   margin-bottom: $paragraph-margin-bottom / 2;
 }
 
-ul.unstyled,
-ol.unnumbered,
 ul.checklist,
-ul.none {
+ul.none, ol.none,
+ul.no-bullet, ol.no-bullet, ol.unnumbered,
+ul.unstyled, ol.unstyled {
   list-style-type: none;
 }
 
-ul.unstyled,
-ol.unnumbered,
+ul.no-bullet, ol.no-bullet, ol.unnumbered {
+  margin-left: 0.625em;
+}
+
+ul.unstyled, ol.unstyled {
+  margin-left: 0;
+}
+
 ul.checklist {
   margin-left: emCalc(10px);
 }
@@ -1106,14 +1122,14 @@ ul.checklist {
 // use consistent size for checkbox
 ul.checklist li > p:first-child > .fa-square-o:first-child,
 ul.checklist li > p:first-child > .fa-check-square-o:first-child {
-  width: 1em;
-  font-size: 0.85em;
+  width: 1.25em;
+  font-size: 0.8em;
+  position: relative;
+  bottom: 0.125em;
 }
 
 ul.checklist li > p:first-child > input[type="checkbox"]:first-child {
-  width: 1em;
-  position: relative;
-  top: 1px;
+  margin-right: 0.25em;
 }
 
 ul.inline {
@@ -1171,8 +1187,9 @@ td.hdlist1 {
 .colist > table {
   tr > td {
     &:first-of-type {
-      padding: 0 0.75em;
+      padding: 0.4em 0.75em 0 0.75em;
       line-height: 1;
+      vertical-align: top;
       img {
         max-width: initial;
       }
